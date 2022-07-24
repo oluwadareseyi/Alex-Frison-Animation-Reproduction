@@ -10,6 +10,39 @@
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
     <title>Aristide Benoist x Guillaume Belveze | Effect reproduction</title>
+
+    <script>
+        ! function() {
+            "use strict";
+            var e = navigator;
+            const t = document;
+            e = /Mobi|Andrdoid|Tablet|iPad|iPhone/.test(e.userAgent) || "MacIntel" === e.platform && 1 < e.maxTouchPoints ? "mobile" : "desktop";
+            const n = t.createElement("link");
+            n.rel = "stylesheet", n.href = "src/" + e + ".css?"
+            t.head.appendChild(n);
+            const a =  t.createElement("script");
+            // a.src = "./static/js/" + e + ".js?";
+            if (e == 'desktop') {
+              a.src = "/src/main.ts"
+              a.type = 'module'
+            }
+
+            // need onreadystatechange because body is not loaded yet 
+            // https://developer.mozilla.org/fr/docs/Web/API/Document/readyState
+            t.onreadystatechange = e => {
+                console.log('DOM LOADED', e);
+                // state of document
+                if(a.src) {
+                  "complete" === t.readyState && t.body.appendChild(a)
+                  console.log('script loaded');
+                } else {
+                  t.body.innerHTML = ''
+                  t.body.innerHTML = '<h1>This website is not available on mobile, please connect via desktop</h1>'
+                } 
+
+            }
+        }();
+    </script>
   </head>
   <body>
     <header>
@@ -21,6 +54,6 @@
       </div>
     </header>
     <img data-src="./image.jpg" alt="main-image">
-    <script type="module" src="/src/main.ts"></script>
+    <!-- <script type="module" src="/src/main.ts"></script> -->
   </body>
 </html>

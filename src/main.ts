@@ -1,5 +1,5 @@
 import Canvas from './Canvas'
-import './style.css'
+// import './style.css'
 
 const image = document.querySelector('img')!
 let canvas = new Canvas(image)
