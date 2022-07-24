@@ -62,6 +62,7 @@ canvas {
 
 a {
   text-decoration: auto;
+  color: black;
   transition: transform 50ms, color 600ms;
   transition-timing-function: ease-in-out;
 }
