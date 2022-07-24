@@ -1,0 +1,19 @@
+{
+  "name": "guillaume-belveze---aristide-benoist---effect-reproduction",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "typescript": "^4.6.4",
+    "vite": "^3.0.0"
+  },
+  "dependencies": {
+    "ogl": "^0.0.97",
+    "ogl-typescript": "^0.1.40"
+  }
+}
