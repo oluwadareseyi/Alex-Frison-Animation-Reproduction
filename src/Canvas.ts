@@ -34,7 +34,6 @@ export default class Canvas {
         this.cursor = params?.cursor || { x: 0, y: 0 }
         this.el = el
         this.createRenderer()
-        console.log('this.gl init', this.gl);
         this.camera = this.createCamera()
         this.scene = this.createScene()
 
@@ -161,9 +160,7 @@ export default class Canvas {
 
     onMouseMove(e: MouseEvent) {
         if (!this.gl) return
-        // console.log('thjis.gl', this.gl);
-        // console.log(this.gl.canvas, this.gl.canvas.width);
-        // console.log('onMove', e);
+
         const pixel = {
             x: e.x * this.gl.canvas.width / this.gl.canvas.clientWidth,
             y: e.y * this.gl.canvas.height / this.gl.canvas.clientHeight
@@ -178,13 +175,10 @@ export default class Canvas {
         const l = this.mesh.position.x
         const w = this.boundDim.width * this.size.width
         const h = this.boundDim.height * this.size.height
-        // let x = this.map(this.cursor.x, l - w / 2, l + w / 2, -0.7, 0.7)
         let x = this.map(this.cursor.x, l - w / 2, l + w / 2, -0.5, 0.5)
         let y = this.map(this.cursor.y, -h / 2, h / 2, -0.5, 0.5)
 
         this.program.uniforms.target.value = [x, y]
-        // console.log(this.cursor);
-        // console.log('this.gl update', this.gl);
         this.renderer.render({
             camera: this.camera,
             scene: this.scene

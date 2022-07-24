@@ -5,7 +5,6 @@ const image = document.querySelector('img')!
 let canvas = new Canvas(image)
 
 // canvas.show()
-console.log('canvas SHOW POST');
 
 const update = () => {
 
