@@ -31,7 +31,7 @@ export default class Canvas {
     image: any;
     cursor: { x: number; y: number; };
     constructor(el: HTMLElement, params?: CanvasParams) {
-        this.cursor = params?.cursor || { x: 0, y: 0 }
+        this.cursor = params?.cursor || { x: 3, y: 3 }
         this.el = el
         this.createRenderer()
         this.camera = this.createCamera()
