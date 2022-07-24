@@ -1,10 +1,6 @@
 import Canvas from './Canvas'
 import './style.css'
 
-
-document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
-  
-`
 const image = document.querySelector('img')!
 let canvas = new Canvas(image)
 

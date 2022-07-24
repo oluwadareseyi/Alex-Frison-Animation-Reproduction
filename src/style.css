@@ -5,6 +5,7 @@
 }
 
 body {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   position: fixed;
   top: 0;
   left: 0;
@@ -14,8 +15,36 @@ body {
   font-size: 16px;
 
   display: flex;
+  flex-direction: row-reverse;
   justify-content: center;
   align-items: center;
+  column-gap: 2rem;
+}
+
+header {
+  /* position: absolute; */
+  top: 2rem;
+
+  display: flex;
+  /* align-items: center; */
+  flex-direction: column-reverse;
+  justify-content: center;
+  align-items: flex-end;
+  text-align: end;
+  row-gap: 3rem;
+  height: 4rem;
+  width: 30rem;
+}
+
+h1 {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+}
+
+.logo__wrapper {
+  height: 4rem;
+  width: 4rem;
 }
 
 img {
@@ -28,4 +57,20 @@ canvas {
   position: absolute;
   top: 0;
   left: 0;
+  pointer-events: none;
+}
+
+a {
+  text-decoration: auto;
+  transition: transform 50ms, color 600ms;
+  transition-timing-function: ease-in-out;
+}
+a:visited {
+  text-decoration: none;
+  color: black;
+}
+
+a:hover {
+  color: rgb(110, 158, 212);
+  transform: scale(1.05);
 }

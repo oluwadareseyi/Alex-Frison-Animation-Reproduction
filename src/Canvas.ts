@@ -153,7 +153,8 @@ export default class Canvas {
         }
         this.mesh.scale.x = this.size.width * this.boundDim.width
         this.mesh.scale.y = this.size.height * this.boundDim.height
-        this.mesh.position.x = 0
+
+        this.mesh.position.x = (bounds.x + bounds.width / 2) * this.size.width / this.screenAspectRatio.width - this.size.width / 2
         this.mesh.position.y = 0
 
     }
@@ -164,25 +165,22 @@ export default class Canvas {
         // console.log(this.gl.canvas, this.gl.canvas.width);
         // console.log('onMove', e);
         const pixel = {
-            x: e.x - this.gl.canvas.width / this.gl.canvas.clientWidth,
-            y: e.y - this.gl.canvas.height / this.gl.canvas.clientHeight
+            x: e.x * this.gl.canvas.width / this.gl.canvas.clientWidth,
+            y: e.y * this.gl.canvas.height / this.gl.canvas.clientHeight
         }
         this.cursor = {
-            x: (pixel.x - this.screenAspectRatio.width / 2) * this.size.width / this.screenAspectRatio.width,
-            y: -(pixel.y - this.screenAspectRatio.height / 2) * this.size.height / this.screenAspectRatio.height
-
+            x: pixel.x * this.size.width / this.screenAspectRatio.width - this.size.width / 2,
+            y: -pixel.y * this.size.height / this.screenAspectRatio.height + this.size.height / 2
         }
     }
 
     update() {
-
-        // console.log(this.cursor);
-        let x = this.boundDim.width * this.cursor.x,
-            y = this.boundDim.height * this.cursor.y
-        const a = this.boundDim.width * this.size.width / 2,
-            b = this.boundDim.height * this.size.height / 2
-        x = this.map(x, -a, a, -1, 1)
-        y = this.map(y, -b, b, -1, 1)
+        const l = this.mesh.position.x
+        const w = this.boundDim.width * this.size.width
+        const h = this.boundDim.height * this.size.height
+        // let x = this.map(this.cursor.x, l - w / 2, l + w / 2, -0.7, 0.7)
+        let x = this.map(this.cursor.x, l - w / 2, l + w / 2, -0.5, 0.5)
+        let y = this.map(this.cursor.y, -h / 2, h / 2, -0.5, 0.5)
 
         this.program.uniforms.target.value = [x, y]
         // console.log(this.cursor);
