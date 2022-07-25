@@ -50,6 +50,8 @@ h1 {
 img {
   width: 70rem;
   height: 50rem;
+  max-width: 60%;
+  max-height: 85%;
   visibility: hidden
 }
 
