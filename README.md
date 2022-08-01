@@ -1,8 +1,4 @@
-# [Aristide Benoist | Guillaume Belveze](https://www.guillaumebelveze.com)
-
-![image](https://user-images.githubusercontent.com/76962312/180651092-70675979-574c-46c2-9e7e-34767f562618.png)
-
-[The effect](https://guillaume-belveze-aristide-benoist-effect-reproduction.vercel.app)
+# [Alex Frison de Isla's animation]([https://www.guillaumebelveze.com](https://mobile.twitter.com/AlexFisla/status/1554130897271767043)
 
 ## Stack 
 
