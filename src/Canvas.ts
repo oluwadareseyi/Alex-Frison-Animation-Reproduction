@@ -1,4 +1,4 @@
-import { Camera, Geometry, Mesh, OGLRenderingContext, Plane, Program, Renderer, Texture, Transform, Vec2 } from 'ogl-typescript';
+import { Camera, Geometry, Mesh, OGLRenderingContext, Plane, Program, Renderer, Texture, Transform } from 'ogl-typescript';
 import vertex from './shaders/vertex.glsl?raw';
 import fragment from './shaders/fragment.glsl?raw';
 import anime from 'animejs';
