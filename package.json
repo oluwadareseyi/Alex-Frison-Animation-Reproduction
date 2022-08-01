@@ -13,6 +13,8 @@
     "vite": "^3.0.0"
   },
   "dependencies": {
+    "@types/animejs": "^3.1.5",
+    "animejs": "^3.2.1",
     "ogl": "^0.0.97",
     "ogl-typescript": "^0.1.40"
   }

@@ -1,6 +1,7 @@
 import { Camera, Geometry, Mesh, OGLRenderingContext, Plane, Program, Renderer, Texture, Transform, Vec2 } from 'ogl-typescript';
 import vertex from './shaders/vertex.glsl?raw';
 import fragment from './shaders/fragment.glsl?raw';
+import anime from 'animejs';
 
 export interface Dimension {
     width: number,
@@ -30,7 +31,13 @@ export default class Canvas {
     group!: Transform;
     image: any;
     cursor: { x: number; y: number; };
+    falseDOM: any;
+    FasleBounds: any;
+    scale!: { x: number; y: number; };
+    pos!: { x: number; y: number }
     constructor(el: HTMLElement, params?: CanvasParams) {
+        this.falseDOM = document.querySelector('.animationEnd__wrapper')!
+        console.log(this.falseDOM);
         this.cursor = params?.cursor || { x: 3, y: 3 }
         this.el = el
         this.createRenderer()
@@ -42,7 +49,9 @@ export default class Canvas {
         this.createMesh()
 
         this.show()
-        document.addEventListener('mousemove', this.onMouseMove.bind(this))
+        document.addEventListener('click', this.onMouseClick.bind(this))
+
+
     }
 
 
@@ -125,13 +134,14 @@ export default class Canvas {
                     value: this.texture
                 },
                 target: {
-                    value: new Vec2(this.cursor.x, this.cursor.y)
+                    // value: new Vec2(this.cursor.x, this.cursor.y)
+                    value: 1
                 },
                 force: {
-                    value: -1.0
+                    value: .0
                 },
                 radius: {
-                    value: 0.5
+                    value: 0.7
                 }
             }
         })
@@ -141,7 +151,7 @@ export default class Canvas {
             program: this.program
         })
         this.mesh.setParent(this.scene)
-        this.mesh.rotation.x = -23 * Math.PI / 180;
+        // this.mesh.rotation.x = -23 * Math.PI / 180;
 
 
         const bounds = this.el.getBoundingClientRect()
@@ -154,31 +164,95 @@ export default class Canvas {
         this.mesh.scale.y = this.size.height * this.boundDim.height
 
         this.mesh.position.x = (bounds.x + bounds.width / 2) * this.size.width / this.screenAspectRatio.width - this.size.width / 2
-        this.mesh.position.y = 0
+        this.mesh.position.y = (bounds.y - bounds.height / 2) * this.size.height / this.screenAspectRatio.height - this.size.height / 2
 
+        this.FasleBounds = this.falseDOM.getBoundingClientRect()
+        this.scale = {
+            x: this.mesh.scale.x,
+            y: this.mesh.scale.y
+        }
+        this.pos = {
+            x: this.mesh.position.x,
+            y: this.mesh.position.y,
+        }
     }
 
-    onMouseMove(e: MouseEvent) {
-        if (!this.gl) return
+    onMouseClick() {
 
-        const pixel = {
-            x: e.x * this.gl.canvas.width / this.gl.canvas.clientWidth,
-            y: e.y * this.gl.canvas.height / this.gl.canvas.clientHeight
+        console.log('this.program', this.program);
+        const initScale = {
+            x: this.mesh.scale.x,
+            y: this.mesh.scale.y
         }
-        this.cursor = {
-            x: pixel.x * this.size.width / this.screenAspectRatio.width - this.size.width / 2,
-            y: -pixel.y * this.size.height / this.screenAspectRatio.height + this.size.height / 2
+        const endScale = {
+            x: this.FasleBounds.width * this.size.width / this.screenAspectRatio.width,
+            y: this.FasleBounds.height * this.size.height / this.screenAspectRatio.height
         }
+        const initPos = {
+            x: this.pos.x,
+            y: this.pos.y
+        }
+        const endPos = {
+            x: (this.FasleBounds.x + this.FasleBounds.width / 2) * this.size.width / this.screenAspectRatio.width - this.size.width / 2,
+            y: (this.FasleBounds.y + this.FasleBounds.height / 2) * this.size.height / this.screenAspectRatio.height - this.size.height / 2
+        }
+        console.log(this.FasleBounds);
+        anime({
+            targets: this.scale,
+            x: [initScale.x, endScale.x],
+            y: [initScale.y, endScale.y],
+            easing: 'easeInOutSine',
+            duration: 2000
+        })
+        anime({
+            targets: this.pos,
+            x: [initPos.x, endPos.x],
+            y: [initPos.y, endPos.y],
+            duration: 2000,
+            easing: 'easeInOutSine'
+        })
+
+        let targetTL = anime.timeline({
+            targets: this.program.uniforms.target,
+            // easing: 'easeInOutSine',
+        })
+        targetTL.add({
+            value: [1, 0.6],
+            easing: 'easeInSine',
+            duration: 600
+        }).add({
+            value: [0.6, -1],
+            easing: 'easeOutQuint',
+            duration: 4000
+        }, 600)
+        let forceTL = anime.timeline({
+            targets: this.program.uniforms.force,
+            duration: 600
+        })
+        forceTL.add({
+            value: [0, 1.2],
+            easing: 'easeInOutCubic',
+            duration: 900
+        }).add({
+            value: [1.2, 0],
+            easing: 'easeInOutSine',
+            duration: 600
+        }, 2000)
+
     }
 
     update() {
-        const l = this.mesh.position.x
-        const w = this.boundDim.width * this.size.width
-        const h = this.boundDim.height * this.size.height
-        let x = this.map(this.cursor.x, l - w / 2, l + w / 2, -0.5, 0.5)
-        let y = this.map(this.cursor.y, -h / 2, h / 2, -0.5, 0.5)
+        // const l = this.mesh.position.x
+        // const w = this.boundDim.width * this.size.width
+        // const h = this.boundDim.height * this.size.height
+        // let x = this.map(this.cursor.x, l - w / 2, l + w / 2, -0.5, 0.5)
+        // let y = this.map(this.cursor.y, -h / 2, h / 2, -0.5, 0.5)
 
-        this.program.uniforms.target.value = [x, y]
+        // this.program.uniforms.target.value = [x, y]
+        this.mesh.scale.x = this.scale.x
+        this.mesh.scale.y = this.scale.y
+        this.mesh.position.x = this.pos.x
+        this.mesh.position.y = this.pos.y
         this.renderer.render({
             camera: this.camera,
             scene: this.scene

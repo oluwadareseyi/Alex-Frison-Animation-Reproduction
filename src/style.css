@@ -61,11 +61,21 @@ h1 {
 }
 
 img {
-  width: 70rem;
-  height: 50rem;
-  max-width: 60%;
-  max-height: 85%;
+  position: relative;
+  /* width: 70rem; */
+  height: 20rem;
+  width: 20rem;
+  left: 25rem;
+  top: 10rem;
+  /* max-width: 60%; */
+  /* max-height: 85%; */
   visibility: hidden
+}
+.animationEnd__wrapper {
+  position: absolute;
+  height: 46rem;
+  width: 46rem;
+  /* background-color: aqua; */
 }
 
 canvas {
