@@ -33,12 +33,13 @@ export default class Canvas {
     cursor: { x: number; y: number; };
     falseDOM: any;
     FasleBounds: any;
-    scale!: { x: number; y: number; };
+    scale: { x: number; y: number; } = { x: 1, y: 1 };
     pos!: { x: number; y: number }
     d = {
         w: 2,
         h: 1.5
     }
+    bounds!: DOMRect;
     constructor(el: HTMLElement, params?: CanvasParams) {
         this.falseDOM = document.querySelector('.animationEnd__wrapper')!
         console.log(this.falseDOM);
@@ -54,6 +55,7 @@ export default class Canvas {
 
         this.show()
         document.addEventListener('click', this.onMouseClick.bind(this))
+        window.addEventListener('resize', this.onResize.bind(this), true)
 
 
     }
@@ -104,6 +106,9 @@ export default class Canvas {
             height,
             width
         }
+
+        console.log('object');
+        this.getBound()
     }
 
     createGeometry() {
@@ -161,19 +166,29 @@ export default class Canvas {
         // this.mesh.rotation.x = -23 * Math.PI / 180;
 
 
-        const bounds = this.el.getBoundingClientRect()
+        this.getBound()
+        // this.setScalePos()
+    }
+
+    getBound() {
+        this.bounds = this.el.getBoundingClientRect()
 
         this.boundDim = {
-            width: bounds.width / this.screenAspectRatio.width,
-            height: bounds.height / this.screenAspectRatio.height
+            width: this.bounds.width / this.screenAspectRatio.width,
+            height: this.bounds.height / this.screenAspectRatio.height
         }
+
+        this.FasleBounds = this.falseDOM.getBoundingClientRect()
+        this.setScalePos()
+    }
+    setScalePos() {
+        if (!this.mesh) return
         this.mesh.scale.x = this.size.width * this.boundDim.width
         this.mesh.scale.y = this.size.height * this.boundDim.height
 
-        this.mesh.position.x = (bounds.x + bounds.width / 2) * this.size.width / this.screenAspectRatio.width - this.size.width / 2
-        this.mesh.position.y = (bounds.y - bounds.height / 2) * this.size.height / this.screenAspectRatio.height - this.size.height / 2
+        this.mesh.position.x = (this.bounds.x + this.bounds.width / 2) * this.size.width / this.screenAspectRatio.width - this.size.width / 2
+        this.mesh.position.y = (this.bounds.y - this.bounds.height / 2) * this.size.height / this.screenAspectRatio.height - this.size.height / 2
 
-        this.FasleBounds = this.falseDOM.getBoundingClientRect()
         this.scale = {
             x: this.mesh.scale.x,
             y: this.mesh.scale.y

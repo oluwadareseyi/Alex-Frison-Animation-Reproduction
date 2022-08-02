@@ -61,12 +61,12 @@ h1 {
 }
 
 img {
-  position: relative;
+  position: absolute;
   /* width: 70rem; */
   height: 20rem;
   width: 15rem;
-  left: 25rem;
-  top: 10rem;
+  right: 5rem;
+  bottom: 5rem;
   /* max-width: 60%; */
   /* max-height: 85%; */
   visibility: hidden
