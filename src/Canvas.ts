@@ -35,6 +35,10 @@ export default class Canvas {
     FasleBounds: any;
     scale!: { x: number; y: number; };
     pos!: { x: number; y: number }
+    d = {
+        w: 2,
+        h: 1.5
+    }
     constructor(el: HTMLElement, params?: CanvasParams) {
         this.falseDOM = document.querySelector('.animationEnd__wrapper')!
         console.log(this.falseDOM);
@@ -142,6 +146,9 @@ export default class Canvas {
                 },
                 radius: {
                     value: 0.7
+                },
+                d: {
+                    value: [this.d.w, this.d.h]
                 }
             }
         })
@@ -201,8 +208,8 @@ export default class Canvas {
             targets: this.scale,
             x: [initScale.x, endScale.x],
             y: [initScale.y, endScale.y],
-            easing: 'easeInOutSine',
-            duration: 2000
+            easing: 'easeInSine',
+            duration: 3000
         })
         anime({
             targets: this.pos,
@@ -239,6 +246,19 @@ export default class Canvas {
             duration: 600
         }, 2000)
 
+
+        const initD = {
+            w: this.d.w,
+            h: this.d.h
+        }
+
+        anime({
+            targets: this.d,
+            w: [initD.w, 1],
+            h: [initD.h, this.FasleBounds.width / this.FasleBounds.height],
+            duration: 3000,
+            easing: 'easeInQuad'
+        })
     }
 
     update() {
@@ -253,6 +273,8 @@ export default class Canvas {
         this.mesh.scale.y = this.scale.y
         this.mesh.position.x = this.pos.x
         this.mesh.position.y = this.pos.y
+
+        this.program.uniforms.d.value = [this.d.w, this.d.h]
         this.renderer.render({
             camera: this.camera,
             scene: this.scene

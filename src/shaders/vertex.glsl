@@ -15,13 +15,15 @@ uniform float radius;
 
 varying vec2 vUv;
 
+uniform vec2 d;
+
 void main() {
     // float x = position.x - target.x;
-    float d = abs(position.x - .5 * position.y - target);
+    float l = abs(position.x - .5 * position.y - target);
     // float y = position.y - target.y;
     // float d = sqrt(x*x + y*y);
     // float z = (force - (io2(d/radius)*force)) * step(d ,radius) ;
-    float z = (force - io2(d/radius) * force) * step(d,radius);
+    float z = (force - io2(l/radius) * force) * step(l,radius);
     gl_Position =  projectionMatrix * modelViewMatrix * vec4(position.x, position.y, z, 1.0); 
-    vUv = uv;
+    vUv = (uv - .5)/d + .5;
 }
